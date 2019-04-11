@@ -10,9 +10,11 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "cors": "^2.8.1",
+    "dotenv": "^7.0.0",
     "express": "^5.0.0-alpha.2",
-    "mongodb": "^2.2.5",
-    "mongoose": "^4.5.7",
+    "mongodb": "^3.2.3",
+    "mongoose": "^5.5.1",
+    "shortid": "^2.2.14",
     "url-exists": "^1.0.3"
   },
   "engines": {
