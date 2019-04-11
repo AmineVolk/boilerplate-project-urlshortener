@@ -4,8 +4,13 @@ var uri = process.env.MONGOLAB_URI;
 console.log("************ MONGOLAB_URI : " + uri.toString());
 const ShortUrl = mongoose.model("Shortlink", { url: String, shortUrl: String });
 
+let connection;
+
 const getDbConnection = () => {
-  return mongoose.connect(uri.toString());
+  if (!connection) {
+    connection = mongoose.connect(uri.toString(), { useNewUrlParser: true });
+  }
+  return connection;
 };
 
 const addShortUrl = async (url, shortUrl) => {
@@ -21,6 +26,19 @@ const addShortUrl = async (url, shortUrl) => {
     return false;
   }
 };
-const getShortUrl = url => {};
+const getShortUrl = async shortUrl => {
+  let result;
+  await getDbConnection();
+  await ShortUrl.find({ shortUrl: shortUrl }, (err, data) => {
+    if (err) {
+      console.log(`************ error in getShortUrl ${e}`);
+      return "Error";
+    } else {
+      result = data;
+    }
+  });
+
+  return result[0];
+};
 
 module.exports = { addShortUrl, getShortUrl };

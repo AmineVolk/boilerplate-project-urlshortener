@@ -3,7 +3,7 @@ require("dotenv").config();
 var express = require("express");
 const shortid = require("shortid");
 const { isUrlValid } = require("./checkUrlFormat");
-const { addShortUrl } = require("./db/crud");
+const { addShortUrl, getShortUrl } = require("./db/crud");
 var cors = require("cors");
 var bodyParser = require("body-parser");
 var app = express();
@@ -34,6 +34,15 @@ app.post("/api/shorturl/new", async (req, res) => {
     }
   } else {
     res.status(400).json({ error: "invalid URL" });
+  }
+});
+
+app.get("/api/shorturl/:shortUrl", async (req, res) => {
+  let shortUrl = req.params.shortUrl;
+  let getShortUrlResult = await getShortUrl(shortUrl);
+  if (getShortUrlResult != "Error") {
+    let url = getShortUrlResult.url;
+    res.redirect(url);
   }
 });
 
