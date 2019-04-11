@@ -28,12 +28,12 @@ app.post("/api/shorturl/new", async (req, res) => {
     let shortUrl = shortid.generate();
     let saveResult = await addShortUrl(newLongUrl, shortUrl);
     if (saveResult == "shortUrl saved") {
-      res.json({ original_url: newLongUrl, short_url: shortUrl });
+      res.status(200).json({ original_url: newLongUrl, short_url: shortUrl });
     } else {
       res.json({ error: saveResult });
     }
   } else {
-    res.json({ error: "invalid URL" });
+    res.status(400).json({ error: "invalid URL" });
   }
 });
 
